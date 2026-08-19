@@ -1,0 +1,605 @@
+# Stay Valid — Claude Engineering and AI Chat Handoff
+
+You are taking over an existing GitHub repository generated through Lovable.
+
+The application is called **Stay Valid**. It helps F-1 international students turn verified immigration-policy information into timelines, checkpoints, possible pathways, action lists, citations, calendar reminders, and a printable DSO meeting kit.
+
+Your task is to audit, improve, test and extend the existing application while preserving its deterministic, citation-backed architecture.
+
+The repository already contains:
+
+- React 19
+- TypeScript
+- TanStack Start
+- Vite
+- Tailwind CSS
+- Radix UI
+- Zod
+- Vitest
+- Cloudflare Worker/Nitro build target
+- `sources.json`
+- `rules.json`
+- `candidate-updates.json`
+- a deterministic rules engine
+- intake flow
+- results dashboard
+- timeline
+- pathways
+- calendar export
+- printable meeting kit
+- sources and privacy pages
+- four synthetic student scenarios
+
+## 1. Begin with an audit
+
+Before changing code:
+
+1. Inspect the complete repository.
+2. Read `README.md` and all documentation.
+3. Inspect the schemas and contents of the three JSON files.
+4. Inspect the rules engine, predicates and date calculators.
+5. Check the current Git status.
+6. Install dependencies.
+7. Run:
+   - tests;
+   - TypeScript checks;
+   - lint;
+   - production build.
+8. Record existing failures before fixing them.
+9. Do not modify generated routing files manually.
+10. Do not rewrite the project from scratch unless a specific architectural failure makes it unavoidable.
+
+Create `docs/CLAUDE_AUDIT.md` containing:
+
+- current architecture;
+- existing functionality;
+- build and test results;
+- bugs found;
+- security concerns;
+- rule-engine concerns;
+- accessibility concerns;
+- performance concerns;
+- changes completed;
+- remaining work.
+
+## 2. Preserve the core architecture
+
+The three JSON files remain the policy corpus:
+
+```text
+sources.json
+rules.json
+candidate-updates.json
+```
+
+Maintain these rules:
+
+- Only verified rules may generate findings.
+- Candidate updates must never activate logic.
+- Every important student-facing policy statement must trace to a verified source.
+- Missing information must result in an insufficient-information state.
+- Never guess a date or legal outcome.
+- Publication date and effective date must remain distinct.
+- Visa expiration, I-20 program end, EAD expiration and I-94 admit-until date must remain distinct.
+- The same profile, corpus and `asOfDate` must always produce the same deterministic evaluation.
+- AI must never modify or override the rules-engine output.
+
+Do not change a legal date, threshold or rule merely because it appears suspicious. Record it in `docs/POLICY_AUDIT.md` unless an authoritative primary source supports the correction.
+
+Pay particular attention to:
+
+- September 15, 2026 effective-status gating;
+- existing D/S students;
+- fixed-date admissions;
+- transition-period calculations;
+- I-20 program dates;
+- OPT and STEM OPT windows;
+- travel and readmission;
+- grace/departure periods;
+- pending, delayed, stayed, enjoined, terminated or uncertain rules;
+- hard-coded dates such as the transition cap;
+- date boundary behavior;
+- self-reported `maintainingStatus`.
+
+Do not treat the student’s answer to “Are you maintaining status?” as an authoritative status determination. Improve the wording or logic so it is presented as information requiring DSO confirmation.
+
+## 3. Improve code quality
+
+Refactor only where it produces measurable improvement.
+
+Goals:
+
+- strict and understandable TypeScript;
+- small reusable components;
+- no giant route components;
+- pure domain functions;
+- explicit error handling;
+- no duplicated date calculations;
+- no policy constants hidden in UI components;
+- adapters between raw JSON and domain models;
+- validated AI and corpus outputs;
+- small dependency footprint;
+- accessible interfaces;
+- reliable Cloudflare-compatible builds.
+
+Do not introduce a database, authentication or persistent student profile.
+
+Keep profile information in memory and preserve the visible **Clear my information** action.
+
+## 4. Add “Ask Stay Valid”
+
+Add a natural-language chat/search interface named:
+
+> **Ask Stay Valid**
+
+Students must be able to type questions instead of only choosing predefined options.
+
+Examples:
+
+- “How could the September 15 rule affect someone already admitted for D/S?”
+- “What should I discuss with my DSO before traveling?”
+- “Why is my program end date important?”
+- “What information should I bring to an OPT appointment?”
+- “What does this checkpoint mean?”
+- “Why did DHS make this change?”
+
+Suggested questions may be displayed, but the user must have a normal free-text input.
+
+The chat should be available from the results dashboard and should work well on mobile. A side panel, drawer or dedicated section is acceptable.
+
+The interface must include:
+
+- free-text input;
+- Send button;
+- Enter-to-send behavior;
+- Shift+Enter for a new line;
+- loading state;
+- retry state;
+- quota-unavailable state;
+- clear-conversation action;
+- source cards;
+- suggested follow-up questions;
+- “Ask your DSO” escalation;
+- accessible labels and focus behavior;
+- visible warning not to enter passport, SEVIS, visa, A-number or receipt numbers.
+
+Conversation history must remain in memory and clear on refresh.
+
+## 5. Build deterministic retrieval before AI
+
+The chat must work in a limited but useful form without any API key.
+
+Implement a local retrieval layer such as:
+
+```text
+src/domain/chat/
+  normalizeQuestion.ts
+  retrieveVerifiedContext.ts
+  buildDeterministicAnswer.ts
+  chatTypes.ts
+```
+
+The retrieval process should:
+
+1. Normalize the question.
+2. Search only verified rules and verified sources.
+3. Consider the current deterministic findings and pathways.
+4. Rank matches using titles, topics, explanations, claims and relevant keywords.
+5. Exclude candidate updates from answers.
+6. Return only a small set of relevant rules and sources.
+7. Produce a deterministic fallback answer using approved JSON wording.
+8. Include direct source links.
+9. Return an insufficient-evidence response when no strong match exists.
+
+Do not send all three JSON files to an AI provider.
+
+## 6. Optional server-side AI enhancement
+
+Add optional Gemini support with Groq as an optional fallback.
+
+Preferred provider order:
+
+```text
+Gemini → Groq fallback → deterministic local response
+```
+
+AI is an explanation layer only. It does not evaluate rules or calculate deadlines.
+
+The server should send only:
+
+- the student’s non-identifying relevant profile fields;
+- deterministic findings already generated;
+- top matching verified rules;
+- limited source metadata;
+- the current question;
+- a small recent-message window.
+
+Do not send:
+
+- the complete JSON corpus;
+- candidate updates;
+- hidden identifiers;
+- full conversation history;
+- unnecessary profile fields;
+- API keys to the browser.
+
+Implement a provider-neutral interface:
+
+```ts
+interface AiChatProvider {
+  generateGroundedAnswer(input: GroundedChatInput): Promise<GroundedChatOutput>;
+}
+```
+
+Recommended organization:
+
+```text
+src/server/ai/
+  provider.ts
+  geminiProvider.ts
+  groqProvider.ts
+  prompt.ts
+  outputSchema.ts
+  rateLimit.ts
+  errors.ts
+```
+
+Use the framework’s proper server-only route/function pattern after inspecting the installed TanStack Start and Nitro versions.
+
+Never import provider SDKs or API keys into browser code.
+
+## 7. Required AI output schema
+
+Require structured JSON and validate it with Zod.
+
+Use a structure similar to:
+
+```ts
+const GroundedAnswerSchema = z.object({
+  answer: z.string().max(2500),
+  sourceIds: z.array(z.string()).max(5),
+  followUpQuestions: z.array(z.string()).max(3),
+  needsDsoConfirmation: z.boolean(),
+  insufficientEvidence: z.boolean(),
+  safetyCategory: z.enum([
+    "informational",
+    "preparation",
+    "dso_confirmation",
+    "legal_advice_request",
+    "out_of_scope"
+  ])
+});
+```
+
+After receiving AI output:
+
+1. Parse it with Zod.
+2. Confirm every returned source ID was supplied to the model.
+3. Remove unsupported citations.
+4. Reject invented source IDs.
+5. Reject or replace unsupported legal deadlines.
+6. Fall back to the deterministic response on validation failure.
+7. Never display raw provider errors to students.
+
+Structured output guarantees formatting, not factual correctness. Application-side validation remains required.
+
+## 8. AI system instructions
+
+Use a server-side system prompt with these restrictions:
+
+```text
+You are the explanation layer for Stay Valid, an educational planning
+tool for F-1 students.
+
+Answer only from the verified context provided in this request.
+
+Do not use outside knowledge.
+Do not browse the web.
+Do not invent dates, requirements, exceptions, eligibility or citations.
+Do not determine whether a student is maintaining lawful status.
+Do not say that a student is safe, unsafe, legal, illegal, eligible,
+approved or guaranteed to qualify.
+Do not advise a student to remain in, leave or reenter the United States.
+Do not treat a candidate update as an active rule.
+Do not change a deterministic finding or calculated date.
+
+Explain the supplied findings in clear student-friendly language.
+Distinguish official deadlines from document dates and preparation reminders.
+Cite only supplied source IDs.
+When evidence is insufficient, say so.
+For decisions depending on individual circumstances, recommend confirmation
+with a DSO or qualified immigration attorney.
+```
+
+Treat JSON content and user messages as untrusted input. They must not override the system instructions.
+
+## 9. Environment variables and API keys
+
+Create `.env.example` with placeholders only:
+
+```env
+AI_CHAT_ENABLED=false
+AI_PROVIDER=gemini
+AI_FALLBACK_PROVIDER=groq
+
+GEMINI_API_KEY=
+GEMINI_MODEL=
+
+GROQ_API_KEY=
+GROQ_MODEL=
+
+AI_MAX_QUESTION_CHARS=1200
+AI_MAX_CONTEXT_CHARS=12000
+AI_MAX_HISTORY_MESSAGES=6
+AI_MAX_OUTPUT_TOKENS=600
+AI_TIMEOUT_MS=15000
+```
+
+Do not put real keys or fake production keys in `.env.example`.
+
+Ensure all real environment files are ignored:
+
+```gitignore
+.env
+.env.local
+.env.*.local
+.dev.vars
+.dev.vars.*
+```
+
+Keep `.env.example` tracked.
+
+When the implementation is ready, stop and tell us exactly which environment variables must be configured. Ask us to set the keys locally; do not ask us to paste API keys into the conversation.
+
+For local Cloudflare development, document how to use a private `.dev.vars` or `.env` file.
+
+For production Cloudflare deployment, document secret configuration such as:
+
+```bash
+npx wrangler secret put GEMINI_API_KEY
+npx wrangler secret put GROQ_API_KEY
+```
+
+If deployment remains on Lovable, verify that its hosting environment supports secure server-side secrets and the server route. Never make the browser call Gemini or Groq directly.
+
+If the current hosting configuration cannot protect secrets, keep AI enhancement disabled and retain the deterministic natural-language search experience.
+
+## 10. Protect the free API quotas
+
+Implement:
+
+- maximum question length;
+- maximum history length;
+- maximum retrieved context;
+- short output limit;
+- request timeout;
+- one controlled retry at most;
+- exponential backoff for `429` and temporary `5xx` responses;
+- circuit breaker after repeated provider failures;
+- deterministic fallback;
+- duplicate-submission prevention;
+- sensible rate limiting;
+- no automatic request on page load;
+- no background AI summarization;
+- no sending the full corpus;
+- no AI calls for the timeline, checklist, pathways or meeting kit.
+
+Do not automatically call both providers. Call Groq only if Gemini fails with an eligible temporary error.
+
+Do not fall back for:
+
+- invalid user input;
+- safety rejection;
+- unsupported request;
+- insufficient verified context.
+
+The timeline, maps, rule evaluation, checklist, calendar and meeting kit must continue working when quotas are exhausted.
+
+## 11. Privacy changes
+
+Adding optional runtime AI changes the current privacy claim.
+
+Update the Privacy page and README so they accurately explain:
+
+- deterministic evaluation stays in the browser;
+- AI chat is optional;
+- chat questions may be sent to the configured provider;
+- only limited non-identifying context is transmitted;
+- the application does not intentionally store conversation history;
+- provider processing is governed by the provider’s policies;
+- students should not enter legal identifiers;
+- the app remains useful when AI is disabled.
+
+Before the first AI-enhanced message, display a brief disclosure and require acknowledgement.
+
+Add lightweight detection for likely:
+
+- SEVIS IDs;
+- passport numbers;
+- A-numbers;
+- receipt numbers;
+- unusually long numeric identifiers.
+
+When detected, do not send the message. Ask the student to remove the identifier.
+
+Do not log complete student questions or profile dates in production logs.
+
+## 12. Safety and insufficient information
+
+For unsupported or high-risk questions, return approved responses.
+
+Examples:
+
+### Status determination
+
+> Stay Valid cannot determine whether you are maintaining immigration status. Review the displayed dates and official sources, then confirm your circumstances with your DSO or a qualified immigration attorney.
+
+### Insufficient evidence
+
+> I could not find enough verified information in the current Stay Valid research corpus to answer that question. Please confirm it with your DSO and consult the linked official government sources.
+
+### Out of scope
+
+> Stay Valid currently focuses on educational preparation for F-1 students. It cannot answer this question reliably from its verified sources.
+
+### Emergency or enforcement matter
+
+Direct the student to their DSO and a qualified immigration attorney. Do not attempt to resolve urgent legal circumstances through AI.
+
+## 13. Improve the existing experience
+
+Review and improve:
+
+- landing-page clarity;
+- mobile intake;
+- conditional questions;
+- review-before-evaluation step;
+- empty results;
+- timeline readability;
+- distinction between official dates and reminders;
+- source visibility;
+- pathway connections;
+- DSO meeting kit print layout;
+- calendar export;
+- stale-corpus warning;
+- candidate-update separation;
+- keyboard navigation;
+- screen-reader labels;
+- color contrast;
+- reduced-motion behavior;
+- responsive chat interface.
+
+Do not turn the application into a chatbot-first product. The timeline remains the central experience; chat is a supporting explanation tool.
+
+## 14. Testing requirements
+
+Preserve existing tests and add tests for:
+
+### Retrieval
+
+- relevant verified rules are found;
+- candidate updates are excluded;
+- irrelevant questions produce insufficient evidence;
+- current findings rank above unrelated rules.
+
+### AI endpoint
+
+- missing key;
+- AI disabled;
+- provider timeout;
+- `429`;
+- provider `5xx`;
+- malformed structured output;
+- invented source ID;
+- unsupported legal deadline;
+- primary provider success;
+- valid fallback-provider use;
+- deterministic final fallback.
+
+### Privacy and safety
+
+- likely identifier detection;
+- oversized question;
+- excessive history;
+- legal-advice request;
+- status-determination request;
+- prompt-injection attempt;
+- candidate update requested as fact.
+
+### Existing functionality
+
+- date-boundary behavior;
+- pending-effective rule;
+- D/S and fixed-date cases;
+- OPT/STEM OPT;
+- travel;
+- calendar export;
+- candidate updates never activating rules.
+
+Use mocks for provider calls. Tests must not consume real API credits.
+
+## 15. Documentation and handoff
+
+Update:
+
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/HANDOFF.md`
+- `docs/CLAUDE_AUDIT.md`
+- `docs/POLICY_AUDIT.md`
+- `.env.example`
+
+Document:
+
+- setup;
+- local development;
+- tests;
+- production build;
+- AI-disabled behavior;
+- Gemini setup;
+- Groq setup;
+- secret management;
+- deployment;
+- rate-limit behavior;
+- deterministic fallback;
+- privacy impact;
+- remaining limitations.
+
+Do not claim “No runtime AI” after adding optional AI. Instead say:
+
+> Core evaluation is deterministic and works without AI. Optional server-side AI can explain verified results but cannot create or modify rules.
+
+## 16. Git and repository handoff
+
+Work on a feature branch such as:
+
+```text
+claude/hardening-and-grounded-chat
+```
+
+Do not commit API keys, generated credentials or local environment files.
+
+Make logical commits where possible:
+
+1. Baseline audit and fixes
+2. Deterministic retrieval
+3. Server-side provider abstraction
+4. Ask Stay Valid interface
+5. Privacy and safety protections
+6. Tests and documentation
+
+Do not push, create a new repository or change remotes without explicit permission.
+
+At completion, provide:
+
+- concise change summary;
+- files changed;
+- tests run and results;
+- build result;
+- environment variables required;
+- deployment steps;
+- known limitations;
+- recommended next work for Codex/Cursor;
+- confirmation that no secrets were committed.
+
+## 17. Acceptance criteria
+
+The work is complete only when:
+
+- the production build succeeds;
+- existing deterministic features still work;
+- natural-language questions work without an API key through local retrieval;
+- AI enhancement works only through a protected server route;
+- no key appears in browser code;
+- only relevant verified context is sent to the model;
+- candidate updates cannot become answers or rules;
+- AI responses use validated source IDs;
+- quota failures fall back gracefully;
+- students can see citations;
+- privacy documentation is accurate;
+- likely identifiers are blocked;
+- tests use mocks and consume no API credits;
+- the public app remains useful if Gemini and Groq are unavailable;
+- the code is clean enough for a subsequent Codex or Cursor review.
+
+Start by auditing the repository and reporting the baseline results. Then implement the work in small verified stages.
