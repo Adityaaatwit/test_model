@@ -578,3 +578,6 @@ Return:
 4. `candidate-updates.json`
 
 Do not hide uncertainty. Do not fabricate missing information. If the research or output exceeds the response limit, complete one valid file at a time and continue in the next response without abbreviating or replacing material with ellipses.
+
+also go though this website: https://www.federalregister.gov/documents/2026/07/17/2026-14439/establishing-a-fixed-time-period-of-admission-and-an-extension-of-stay-procedure-for-nonimmigrant   
+this website is for finding all the rules, use deep research to find all the info
