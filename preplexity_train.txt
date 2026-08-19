@@ -1,0 +1,580 @@
+# Status Compass — U.S. F-1 International Student Rules Research Assignment
+
+You are conducting high-accuracy policy research for **Status Compass**, an educational planning application for F-1 international students in the United States.
+
+Your job is to build a carefully verified, citation-backed knowledge base that helps students understand:
+
+- what immigration-policy changes may affect them;
+- why those changes were made;
+- which dates deserve attention;
+- how relevant dates are calculated;
+- what facts affect the calculation;
+- what actions may require preparation;
+- which possible paths should be discussed with a Designated School Official (DSO);
+- what remains uncertain or dependent on individual circumstances; and
+- where every statement came from.
+
+This product is not a legal-advice chatbot. It must not determine whether a student is maintaining lawful status or guarantee eligibility for an immigration benefit.
+
+## 1. Research date and legal-status verification
+
+Treat the research date and time as:
+
+- Date: August 19, 2026
+- Time zone: America/New_York
+
+Every source and rule must be evaluated as of this date.
+
+The main focus is the Department of Homeland Security final rule:
+
+- Title: **Establishing a Fixed Time Period of Admission and an Extension of Stay Procedure for Nonimmigrant Academic Students, Exchange Visitors, and Representatives of Foreign Information Media**
+- Federal Register citation: **91 FR 44976**
+- Document number: **2026-14439**
+- Publication date: **July 17, 2026**
+- Scheduled effective date: **September 15, 2026**
+- DHS docket: **ICEB-2025-0001**
+- RIN: **1653-AA95**
+
+Do not assume that the rule will become effective merely because September 15, 2026 is printed as the effective date.
+
+Before describing it as active or certain, search for:
+
+1. A Federal Register document changing its effective date.
+2. A Federal Register document terminating or withdrawing the rule.
+3. Congressional Review Act action.
+4. Newly enacted legislation affecting the rule.
+5. DHS, ICE, SEVP, USCIS, CBP, or Department of State implementation guidance.
+6. A federal-court complaint, temporary restraining order, preliminary injunction, stay, final order, or appellate decision.
+7. Any correction or amendment to document 2026-14439.
+8. Updated eCFR text.
+9. Any conflict between the final rule, agency guidance, court orders, and secondary reporting.
+
+Assign one of these statuses:
+
+- `proposed`
+- `published_pending_effective`
+- `effective`
+- `effective_partially`
+- `delayed`
+- `stayed_by_court`
+- `enjoined`
+- `terminated`
+- `withdrawn`
+- `superseded`
+- `status_uncertain`
+
+If the status cannot be established conclusively, use `status_uncertain` and explain exactly what remains unknown.
+
+## 2. Source hierarchy
+
+Use sources in this order.
+
+### Tier 1 — Primary authority
+
+Research all relevant materials from:
+
+- `federalregister.gov`
+- `ecfr.gov`
+- `govinfo.gov`
+- `regulations.gov`
+- `congress.gov`
+- `uscis.gov`
+- `ice.gov`
+- `ice.gov/sevis`
+- `studyinthestates.dhs.gov`
+- `dhs.gov`
+- `cbp.gov`
+- `i94.cbp.dhs.gov`
+- `travel.state.gov`
+- `state.gov`
+- official federal-court websites and PACER information where publicly accessible
+
+Primary sources control the rule logic.
+
+### Tier 2 — Institutional implementation guidance
+
+Use official pages published by:
+
+- accredited U.S. colleges and universities;
+- university international-student offices;
+- university DSOs or international-student service centers;
+- recognized higher-education associations, when clearly identified.
+
+These sources can explain practical implementation, but they must not override federal authority.
+
+### Tier 3 — Reputable reporting and professional analysis
+
+Search for recent updates from sources such as:
+
+- Reuters
+- Associated Press
+- major established U.S. news organizations
+- Inside Higher Ed
+- The Chronicle of Higher Education
+- NAFSA
+- reputable immigration-law organizations or university counsel publications
+
+Secondary sources may be used to discover developments, controversies, litigation, implementation problems, or differing interpretations.
+
+Do not use a secondary source as the sole authority for an application rule. Place unconfirmed information in `candidate-updates.json`.
+
+Exclude:
+
+- Reddit
+- TikTok
+- YouTube commentary
+- anonymous blogs
+- SEO immigration websites
+- unsourced social-media posts
+- AI-generated summaries
+- websites copying the Federal Register without provenance
+
+A secondary source may point to a primary document, but the primary document must then be opened and verified.
+
+## 3. Required main-rule research
+
+Read the complete final rule, including its preamble, responses to comments, regulatory text, transition provisions, definitions, dates, examples, and stated rationale.
+
+Investigate and explain, without oversimplification:
+
+1. What “duration of status” or `D/S` means under the earlier system.
+2. What DHS says is changing.
+3. Why DHS says it made the change.
+4. The fraud, oversight, national-security, program-integrity, and compliance concerns stated by DHS.
+5. The objections or concerns raised by commenters.
+6. DHS’s responses to those objections.
+7. The scheduled effective date and every qualification attached to it.
+8. The difference between publication, scheduled effectiveness, actual effectiveness, and implementation.
+9. Who is covered: F-1, F-2, J-1, J-2, I, or other classifications.
+10. Which parts are relevant specifically to F-1 students.
+11. The treatment of students admitted before the effective date with `D/S`.
+12. The treatment of students admitted or readmitted after the effective date.
+13. How a fixed admission period is determined.
+14. The maximum admission period and situations that may produce a shorter period.
+15. The relationship among the I-94, I-20, program dates, visa expiration, EAD, SEVIS record, and admission period.
+16. Transition periods and their starting and ending conditions.
+17. Program completion and departure/grace periods.
+18. Extension-of-stay procedures.
+19. Form I-539 requirements, if applicable.
+20. Recommended or legally required filing windows.
+21. Timely filed extension applications and authorized-stay implications.
+22. What happens while an extension request is pending.
+23. Biometrics or other application requirements, if relevant.
+24. OPT and STEM OPT treatment.
+25. Post-completion OPT and STEM OPT EAD dates.
+26. Cap-gap treatment, if affected.
+27. CPT, if affected.
+28. Change of educational level.
+29. Transfer to another school.
+30. Changing programs or majors.
+31. English-language training restrictions.
+32. Repeated educational levels or degree programs.
+33. International travel and readmission after the effective date.
+34. Reentry during OPT or STEM OPT.
+35. Reinstatement and change-of-status scenarios.
+36. Unlawful-presence implications.
+37. Dependents in F-2 status.
+38. Any special country, program, school, accreditation, national-interest, or reciprocity limits.
+39. Any exceptions, exemptions, discretionary provisions, or unresolved agency questions.
+40. Any implementation guidance schools and DSOs are still waiting to receive.
+
+Clearly distinguish:
+
+- a legal deadline;
+- an admission expiration date;
+- an I-20 program date;
+- an EAD expiration date;
+- a filing window;
+- a transition-period endpoint;
+- a grace/departure period;
+- a school-recommended preparation date;
+- and a Status Compass reminder date.
+
+Never present a suggested preparation date as a government deadline.
+
+## 4. Existing F-1 rules needed by the application
+
+In addition to the September 15 rule, research the most important currently applicable F-1 rules needed for these MVP scenarios:
+
+### Scenario A — Existing student with D/S
+
+Research what the student should verify and how the transition rule might apply.
+
+### Scenario B — Student approaching the I-20 program end date
+
+Research program extensions, completion, grace/departure periods, OPT preparation, transfers, further study, and which actions must occur before a particular date.
+
+### Scenario C — Student preparing for or participating in OPT/STEM OPT
+
+Research:
+
+- application timing;
+- DSO recommendation timing;
+- USCIS filing timing;
+- EAD start and end dates;
+- unemployment limits, if within project scope;
+- STEM OPT extension timing;
+- reporting obligations;
+- travel considerations;
+- cap-gap treatment;
+- interaction with the September 15 rule; and
+- which facts require DSO or attorney confirmation.
+
+### Scenario D — Student planning international travel
+
+Research:
+
+- difference between visa validity and immigration status;
+- passport, visa, I-20 travel endorsement, I-94, SEVIS, EAD and employment evidence;
+- readmission and CBP discretion;
+- reentry after September 15, 2026;
+- travel during OPT or STEM OPT;
+- pending applications;
+- whether travel could cause a student to receive a fixed admission period;
+- and which outcomes cannot be predicted by the application.
+
+Only include a rule if it is relevant to one of these scenarios or directly necessary to explain the September 15 transition.
+
+## 5. Deadline and timeline calculation research
+
+Status Compass will ask a student for a limited set of non-identifying facts:
+
+- whether the I-94 shows `D/S` or a fixed date;
+- I-94 admit-until date, if present;
+- I-20 program start date;
+- I-20 program end date;
+- current academic stage;
+- whether the student is preparing for, applying for, or participating in OPT or STEM OPT;
+- EAD start and expiration dates, if applicable;
+- planned international travel and expected reentry date;
+- whether an application is pending, without asking for a receipt number;
+- desired next step: continue study, complete program, practical training, transfer, travel, change level, or prepare for a DSO meeting.
+
+For every deadline or timeline calculation, provide:
+
+- the student inputs required;
+- the controlling official date;
+- the legal or policy basis;
+- an exact deterministic formula where one exists;
+- inclusive/exclusive day-counting rules;
+- weekend or federal-holiday treatment, if stated;
+- before/on/after boundary behavior;
+- missing-input behavior;
+- whether the result is a legal deadline or an informational reminder;
+- what must be confirmed by a DSO;
+- official citation;
+- minimal supporting quotation;
+- and at least three test cases.
+
+Do not invent a numerical deadline when the authority uses language such as “recommended,” “reasonable,” “promptly,” or “up to.”
+
+For each formula, distinguish:
+
+```text
+official_deadline = derived strictly from authority
+preparation_reminder = optional product reminder
+dso_review_date = suggested conversation date, not a legal deadline
+```
+
+If Status Compass uses a preparation buffer—for example, reminding a student 30 days before something—mark it as:
+
+- configurable;
+- not legally required;
+- not part of the federal rule; and
+- designed only to encourage earlier DSO preparation.
+
+## 6. “Why this is happening” requirement
+
+The knowledge base must explain both the government rationale and the student impact.
+
+For every major change include:
+
+- `official_rationale`: DHS’s stated reason;
+- `commenter_concerns`: important objections raised during rulemaking;
+- `agency_response`: DHS’s response;
+- `practical_student_impact`: what may change for a student;
+- `why_this_result_appears`: why Status Compass would display the finding;
+- `uncertainty`: what the application cannot conclude;
+- `questions_for_dso`: questions the student should take to a DSO.
+
+Do not convert the government’s policy rationale into an independent factual conclusion. Use wording such as:
+
+> DHS states that the change is intended to…
+
+rather than:
+
+> This change prevents fraud.
+
+## 7. Product safety requirements
+
+All output must follow these boundaries:
+
+- Educational information only.
+- No determination of lawful status.
+- No eligibility guarantee.
+- No claim that a student is “safe,” “unsafe,” “legal,” or “illegal.”
+- No percentage risk scores.
+- No personalized legal advice.
+- No instruction to remain in, leave, or reenter the United States as a definitive recommendation.
+- No assumptions from missing data.
+- No collection of names, SEVIS IDs, A-numbers, passport numbers, visa numbers, card numbers, or USCIS receipt numbers.
+- Important decisions must be directed to a DSO or qualified immigration attorney.
+- Each active rule must trace to at least one Tier 1 source.
+- Secondary reports must never directly activate application logic.
+
+Use attention labels only:
+
+- `confirm_now`
+- `prepare`
+- `monitor`
+- `information`
+
+## 8. Output exactly three files
+
+Return three complete, parseable JSON files. Put each file in its own fenced JSON block and label it with the filename.
+
+Do not insert comments inside JSON. Do not use placeholders such as “add source later.” Use `null` when something is unknown.
+
+### File 1: `sources.json`
+
+This file records all primary and secondary sources.
+
+Use this structure:
+
+```json
+{
+  "corpusVersion": "1.0.0-research",
+  "researchedAsOf": "2026-08-19T23:59:59-04:00",
+  "sources": [
+    {
+      "id": "unique-source-id",
+      "title": "Exact document or page title",
+      "publisher": "Publishing authority",
+      "agency": "Agency or null",
+      "sourceTier": 1,
+      "sourceType": "federal_register|ecfr|agency_guidance|court_document|congressional_action|university_guidance|news|professional_analysis",
+      "url": "Direct canonical URL",
+      "documentNumber": "Official number or null",
+      "docketNumber": "Official docket or null",
+      "citation": "Formal citation or null",
+      "publishedAt": "YYYY-MM-DD or null",
+      "updatedAt": "YYYY-MM-DD or null",
+      "scheduledEffectiveAt": "YYYY-MM-DD or null",
+      "actualEffectiveAt": "YYYY-MM-DD or null",
+      "legalStatus": "published_pending_effective",
+      "jurisdiction": "United States",
+      "classificationsCovered": ["F-1"],
+      "topics": ["transition"],
+      "officialRationale": "Neutral summary or null",
+      "minimalSupportingExcerpt": "Short exact passage necessary for verification",
+      "verifiedClaims": [
+        "Atomic claim supported by this source"
+      ],
+      "conflictsWithSourceIds": [],
+      "lastCheckedAt": "ISO-8601 timestamp",
+      "verificationStatus": "verified|partially_verified|candidate|superseded",
+      "verificationNotes": "What was checked and what remains uncertain"
+    }
+  ]
+}
+```
+
+Requirements:
+
+- Use the canonical government URL.
+- Do not use a Google or Perplexity redirect.
+- Break broad summaries into atomic verified claims.
+- Record conflicting and superseding sources.
+- Record any litigation using the court name, case name, docket number, filing date, document type, and current procedural effect.
+- A complaint alone does not block a rule.
+- Clearly distinguish allegations, requests for relief, and actual court orders.
+
+### File 2: `rules.json`
+
+This contains only rules that can be supported by Tier 1 sources.
+
+Use this structure:
+
+```json
+{
+  "corpusVersion": "1.0.0-research",
+  "researchedAsOf": "2026-08-19T23:59:59-04:00",
+  "ruleSetStatus": "research_draft_requires_human_review",
+  "rules": [
+    {
+      "id": "unique-rule-id",
+      "title": "Short student-friendly title",
+      "topic": "transition|admission|program_end|extension_of_stay|opt|stem_opt|travel|transfer|change_level|grace_period|unlawful_presence|dependent",
+      "classifications": ["F-1"],
+      "legalStatus": "published_pending_effective",
+      "activeFrom": "YYYY-MM-DD or null",
+      "activeUntil": null,
+      "doNotActivateBefore": "YYYY-MM-DD or null",
+      "appliesWhen": {
+        "all": [],
+        "any": [],
+        "not": []
+      },
+      "requiredInputs": [
+        "i94Notation"
+      ],
+      "calculation": {
+        "type": "none|date_add|date_subtract|min_date|max_date|source_defined",
+        "formula": "Human-readable deterministic formula or null",
+        "dayCounting": "Rule or null",
+        "weekendHolidayTreatment": "Rule or null",
+        "basis": "Official basis",
+        "isLegalDeadline": false
+      },
+      "finding": {
+        "attention": "confirm_now|prepare|monitor|information",
+        "headline": "Neutral headline",
+        "explanation": "Plain-language explanation",
+        "whyThisAppears": "Connection between the input and verified rule",
+        "officialRationale": "Why the agency says the policy exists",
+        "studentImpact": "Possible practical effect without determining status",
+        "knownFacts": [],
+        "confirmationNeeded": [],
+        "actions": [],
+        "questionsForDso": [],
+        "documentsOrDatesToBring": []
+      },
+      "possiblePathways": [
+        {
+          "id": "pathway-id",
+          "title": "Topic worth discussing",
+          "whyItMayBeRelevant": "Conditional explanation",
+          "eligibilityNotDetermined": true,
+          "confirmationNeeded": [],
+          "questionsForDso": []
+        }
+      ],
+      "sourceIds": ["source-id"],
+      "minimalSupportingExcerpt": "Short verification passage",
+      "boundaryTests": [
+        {
+          "description": "Before-boundary case",
+          "inputs": {},
+          "asOfDate": "YYYY-MM-DD",
+          "expectedOutcome": "Expected deterministic result"
+        },
+        {
+          "description": "Exact-boundary case",
+          "inputs": {},
+          "asOfDate": "YYYY-MM-DD",
+          "expectedOutcome": "Expected deterministic result"
+        },
+        {
+          "description": "After-boundary case",
+          "inputs": {},
+          "asOfDate": "YYYY-MM-DD",
+          "expectedOutcome": "Expected deterministic result"
+        }
+      ],
+      "uncertainty": "What cannot be concluded",
+      "humanReviewRequired": true
+    }
+  ]
+}
+```
+
+Rules must be atomic. Do not create one enormous “September 15 rule.” Create separate rules for materially different cohorts and outcomes, such as:
+
+- existing D/S student before effective date;
+- new admission after effective date;
+- reentry after effective date;
+- current OPT participant;
+- current STEM OPT participant;
+- approaching program end;
+- extension-of-stay preparation;
+- transfer or educational-level change;
+- missing or conflicting dates;
+- changed, delayed, or enjoined policy status.
+
+If the effective status is not certain, prevent activation through `doNotActivateBefore` and explain the uncertainty.
+
+### File 3: `candidate-updates.json`
+
+This stores recent reporting, unresolved changes, incomplete guidance, and anything that cannot safely become an active rule.
+
+Use this structure:
+
+```json
+{
+  "researchedAsOf": "2026-08-19T23:59:59-04:00",
+  "updates": [
+    {
+      "id": "candidate-update-id",
+      "headline": "Neutral description",
+      "discoveredAt": "ISO-8601 timestamp",
+      "eventDate": "YYYY-MM-DD or null",
+      "topic": "implementation|litigation|congressional_review|agency_guidance|correction|news_report|university_response",
+      "summary": "What may have changed",
+      "whyItMatters": "Possible effect on students or an existing rule",
+      "sourceIds": ["source-id"],
+      "affectedRuleIds": [],
+      "primaryAuthorityLocated": false,
+      "verificationStatus": "needs_review|partially_verified|verified_no_rule_change|rejected|superseded",
+      "conflictingInformation": [],
+      "nextVerificationSteps": [],
+      "mustNotActivateRules": true
+    }
+  ]
+}
+```
+
+Include:
+
+- credible news about implementation;
+- reported litigation;
+- university alerts;
+- agency announcements without complete implementing instructions;
+- discovered conflicts;
+- sources that appear outdated;
+- missing guidance questions;
+- and anything requiring human verification.
+
+Do not copy a candidate into `rules.json` unless a Tier 1 source supports the exact logic.
+
+## 9. Verification checklist before final output
+
+Before returning the files, verify:
+
+1. Every URL opens and points directly to the cited material.
+2. Every active rule has a Tier 1 source.
+3. Every date is supported by a cited source.
+4. Publication date and effective date are not confused.
+5. Visa expiration and authorized admission are not confused.
+6. I-20 program end and I-94 admit-until dates are not treated as interchangeable.
+7. D/S and fixed-date admissions are treated separately.
+8. Existing students and new/reentering students are treated separately.
+9. OPT, STEM OPT, and non-OPT students are not merged incorrectly.
+10. Travel does not receive a guaranteed outcome.
+11. A lawsuit filing is not described as an injunction.
+12. A scheduled effective date is not described as final if later authority may change it.
+13. Government rationale is attributed to the government.
+14. Recommended preparation reminders are not labeled as legal deadlines.
+15. Unknown facts are represented as uncertainty, not guessed.
+16. Every JSON block parses as valid JSON.
+17. No rule claims to determine lawful status or eligibility.
+18. Every rule includes DSO confirmation language where appropriate.
+19. Every rule includes boundary tests.
+20. Secondary sources appear only as corroboration or candidate updates.
+
+## 10. Final response format
+
+Return:
+
+1. A short research summary of no more than 500 words explaining:
+   - the verified status of the September 15 rule;
+   - the most important student impacts;
+   - the strongest unresolved questions;
+   - and the number of sources and rules produced.
+
+2. `sources.json`
+
+3. `rules.json`
+
+4. `candidate-updates.json`
+
+Do not hide uncertainty. Do not fabricate missing information. If the research or output exceeds the response limit, complete one valid file at a time and continue in the next response without abbreviating or replacing material with ellipses.
