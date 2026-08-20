@@ -1,0 +1,17 @@
+A headline appears in an international-student group chat: “New F-1 rules are coming.” Within minutes, one student says everyone will receive a new deadline, another says current students are unaffected, and someone else warns against traveling. An incoming freshman, a doctoral student midway through research, and a graduate on OPT all read the same update but may face very different implications. Each is left asking: Does this apply to me now, later, or not at all?
+
+That confusion is the problem behind Stay Valid. Immigration information is available, but it is scattered across regulations, agency guidance, university messages, news reports, and social media. Students must separate proposals from final rules, publication dates from effective dates, and general requirements from facts that depend on their individual records. A misunderstanding can create unnecessary panic—or cause an important preparation step to be missed.
+
+Stay Valid is a privacy-first status compass for F-1 international students. It turns verified policy information and student-provided dates into a personal timeline, clear checkpoints, possible pathways to discuss, and a prepared conversation with a Designated School Official.
+
+Students begin with a short, dependency-aware questionnaire. They enter only facts relevant to their situation, including what appears on their I-94, I-20 program dates, academic stage, OPT or STEM OPT stage, and planned travel. Stay Valid does not request a name, passport number, SEVIS ID, receipt number, or document upload.
+
+A deterministic rules engine compares those answers with a versioned corpus built from official sources. It identifies which verified topics appear relevant, which announced changes still need monitoring, and which questions cannot be answered without a DSO. Results appear as a horizontal timeline, an action roadmap organized into “confirm now,” “prepare,” and “monitor,” and an evidence table connecting every important statement to its source.
+
+A student can see why an update appeared, whether it is currently effective, what date triggered it, and what remains uncertain. They can export reminders to a calendar and create a printable DSO meeting kit containing relevant dates, records to bring, and prepared questions. From the toolkit, they can open Outlook or another email application and arrange a meeting themselves.
+
+Stay Valid is deliberately not an immigration chatbot. It never decides whether someone is maintaining status, predicts approval, or claims eligibility. If information is missing, it asks for the necessary detail or recommends DSO confirmation instead of guessing. Proposed and uncertain developments remain separate from active rules.
+
+Ask Stay Valid also lets students ask questions in their own words. The system first retrieves relevant verified rules and builds a sourced answer. Optional Gemini and Groq models may make that answer easier to understand, but they cannot invent rules, dates, or citations. If AI fails, the verified local answer remains available.
+
+The result is not another stream of alarming headlines. It is a calmer way to understand what changed, why it matters, whether it may be relevant, and what to do next. Stay Valid helps students replace rumor with evidence and uncertainty with a prepared conversation with their DSO.
